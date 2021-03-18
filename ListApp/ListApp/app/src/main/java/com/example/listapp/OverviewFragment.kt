@@ -5,6 +5,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
+import android.widget.ScrollView
 import androidx.navigation.Navigation
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -17,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 class OverviewFragment : Fragment() {
 
     lateinit var createNewListButton: FloatingActionButton
+    //val scrollView = ScrollView(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
