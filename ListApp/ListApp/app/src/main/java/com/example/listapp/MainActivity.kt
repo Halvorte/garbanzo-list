@@ -1,5 +1,6 @@
 package com.example.listapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,8 +28,10 @@ class MainActivity : AppCompatActivity() {
         binding.listOfLists.adapter = ListRecyclerAdapter(listCollection, this::onListCardClicked)
 
 
+        // Starts the second activity when the floating action button is pressed
         binding.newListButton.setOnClickListener {
-
+            val intent = Intent(this, ListDetailsActivity::class.java)
+            startActivity(intent)
         }
 
         // Update list of lists
