@@ -9,14 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ListApp">
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity" android:label="Garbanzo-List" android:theme="@style/Theme.mainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListDetailsActivity" android:parentActivityName=".MainActivity">
+        <activity android:name=".ListDetailsActivity" android:parentActivityName=".MainActivity" android:label="Garbanzo-List">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity"/>
