@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "419933728594",
+    "project_id": "garbanzo-list",
+    "storage_bucket": "garbanzo-list.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:419933728594:android:acae7a05fabdd8c2fed48b",
+        "android_client_info": {
+          "package_name": "com.example.listapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "419933728594-7ccg918m25o86pe2jhn1peo05rt0gdhr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRjFBmjBZho4e_AsvTQdDSVpZeNfqwuYM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "419933728594-7ccg918m25o86pe2jhn1peo05rt0gdhr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
