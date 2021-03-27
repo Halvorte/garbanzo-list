@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.listapp.databinding.ActivityMainBinding
 import com.example.listapp.lists.List
 import com.example.listapp.lists.ListRecyclerAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +24,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        // This is where the actionbar subtitle text is set.
+        supportActionBar?.setSubtitle("Overview of all your lists")
 
         binding.listOfLists.layoutManager = LinearLayoutManager(this)
         binding.listOfLists.adapter = ListRecyclerAdapter(listCollection, this::onListCardClicked)
