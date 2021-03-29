@@ -42,6 +42,10 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    private fun addList(title: String){
+
+    }
+
     // What happens when a card is cliced
     private fun onListCardClicked(list:List):Unit{
         // send to new activity where the content of clicked list is shown.

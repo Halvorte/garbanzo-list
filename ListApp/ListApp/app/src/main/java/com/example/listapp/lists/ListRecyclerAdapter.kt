@@ -12,6 +12,7 @@ class ListRecyclerAdapter(private val lists:MutableList<List>, private val onLis
         fun binding(list: List) {
             // Bind to layout id
             binding.overViewTitle.text = list.title
+
         }
     }
 
