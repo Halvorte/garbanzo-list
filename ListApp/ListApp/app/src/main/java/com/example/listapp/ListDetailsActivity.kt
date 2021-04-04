@@ -7,12 +7,10 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.listapp.databinding.ActivityListDetailsBinding
-import com.example.listapp.lists.Item
-import com.example.listapp.MainActivity
+import com.example.listapp.dataClasses.Item
 import com.example.listapp.lists.ItemDataManager
 import com.example.listapp.lists.ItemRecyclerAdapter
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
 
 class ListDetailsActivity : AppCompatActivity() {
 
@@ -45,6 +43,7 @@ class ListDetailsActivity : AppCompatActivity() {
 
     }
 
+    // function to add another item to the list
     private fun showNewItemDialogbox(){
         binding.addItemButton.setOnClickListener {
 

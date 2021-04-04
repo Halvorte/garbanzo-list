@@ -1,5 +1,5 @@
 package com.example.listapp.lists
-import com.example.listapp.lists.Item
+import com.example.listapp.dataClasses.Item
 import kotlin.collections.List
 
 class ItemDataManager {
@@ -20,7 +20,7 @@ class ItemDataManager {
         onItems?.invoke(itemCollection)
     }
 
-    fun addItem(item:Item){
+    fun addItem(item: Item){
         itemCollection.add(item)
         onItems?.invoke(itemCollection)
     }
