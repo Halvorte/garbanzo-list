@@ -21,7 +21,7 @@ class ListDataManager {
 
     }
 
-    fun addItem(list: List){
+    fun addList(list: List){
         listCollection.add(list)
         onList?.invoke(listCollection)
 

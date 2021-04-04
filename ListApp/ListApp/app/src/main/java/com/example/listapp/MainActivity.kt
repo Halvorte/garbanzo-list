@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.listapp.databinding.ActivityMainBinding
 import com.example.listapp.dataClasses.List
@@ -60,12 +62,38 @@ class MainActivity : AppCompatActivity() {
          */
 
 
+        newListDialogbox()
         basicReadWrite()
 
     }
 
     private fun addList(title: String){
+        val list = List(title)
+        ListDataManager.instance.addList(list)
+    }
 
+    // Function to add new Lists
+    private fun newListDialogbox(){
+        binding.newListButton.setOnClickListener {
+
+            val builder = AlertDialog.Builder(this)
+            val inflater = layoutInflater
+            val dialogLayout = inflater.inflate(R.layout.new_item_dialogbox, null)
+            val editText = dialogLayout.findViewById<EditText>(R.id.dialogbox_newItem)
+
+            with(builder){
+                setTitle("Enter new List name")
+                setPositiveButton("OK"){dialog, which ->
+                    val newListText = editText.text.toString()
+                    addList(newListText)
+                }
+                setNegativeButton("Cancel"){dialog, which ->
+                    Log.d("Main", "Negative button clicked")
+                }
+                setView(dialogLayout)
+                show()
+            }
+        }
     }
 
     // What happens when a card is clicked

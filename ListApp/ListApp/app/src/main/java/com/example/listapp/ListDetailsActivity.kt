@@ -35,9 +35,6 @@ class ListDetailsActivity : AppCompatActivity() {
         }
         ItemDataManager.instance.itemLoad()
 
-        binding.addItemButton.setOnClickListener {
-            // Add functionality to add another item to list.
-        }
 
         showNewItemDialogbox()
 
