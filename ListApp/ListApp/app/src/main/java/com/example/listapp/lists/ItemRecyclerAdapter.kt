@@ -1,19 +1,16 @@
 package com.example.listapp.lists
 
-import android.content.ClipData
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.listapp.databinding.ActivityListDetailsBinding.bind
+import com.example.listapp.dataClasses.Item
 import com.example.listapp.databinding.ItemLayoutBinding
-import com.example.listapp.databinding.ListOverviewLayoutBinding
 import kotlin.collections.List
-import com.example.listapp.lists.ItemDataManager
 
 class ItemRecyclerAdapter (private var items:List<Item>, private val onItemCardClicked:(Item) -> Unit):RecyclerView.Adapter<ItemRecyclerAdapter.ViewHolder>(){
 
     class ViewHolder(val binding:ItemLayoutBinding):RecyclerView.ViewHolder(binding.root){
-        fun binding(item:Item){
+        fun binding(item: Item){
             binding.itemName.text = item.name
             binding.itemCheckbox.isChecked = item.complete
         }

@@ -1,3 +1,3 @@
-package com.example.listapp.lists
+package com.example.listapp.dataClasses
 
 data class Item(var name: String, var complete: Boolean)
