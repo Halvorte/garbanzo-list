@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.listapp">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,17 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ListApp">
-        <activity android:name=".MainActivity" android:label="Garbanzo-List" android:theme="@style/Theme.mainTheme">
+        <activity android:name=".ui.MainActivity" android:label="Garbanzo-List" android:theme="@style/Theme.mainTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ListDetailsActivity" android:parentActivityName=".MainActivity" android:label="Garbanzo-List">
+        <activity android:name=".ui.ItemActivity" android:parentActivityName=".ui.MainActivity" android:label="Garbanzo-List">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".ui.MainActivity"/>
         </activity>
     </application>
 

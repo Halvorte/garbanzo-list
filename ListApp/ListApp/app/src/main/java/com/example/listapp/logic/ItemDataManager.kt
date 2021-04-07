@@ -1,4 +1,4 @@
-package com.example.listapp.lists
+package com.example.listapp.logic
 import com.example.listapp.dataClasses.Item
 import kotlin.collections.List
 

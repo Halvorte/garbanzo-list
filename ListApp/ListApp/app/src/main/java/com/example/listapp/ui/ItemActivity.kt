@@ -1,4 +1,4 @@
-package com.example.listapp
+package com.example.listapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,15 +6,12 @@ import android.util.Log
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.listapp.R
 import com.example.listapp.databinding.ActivityListDetailsBinding
 import com.example.listapp.dataClasses.Item
-import com.example.listapp.lists.ItemDataManager
-import com.example.listapp.lists.ItemRecyclerAdapter
-import com.google.firebase.database.DatabaseReference
+import com.example.listapp.logic.ItemDataManager
 
-class ListDetailsActivity : AppCompatActivity() {
-
-    lateinit var database: DatabaseReference
+class ItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListDetailsBinding
 
@@ -24,7 +21,6 @@ class ListDetailsActivity : AppCompatActivity() {
         binding = ActivityListDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //database = FirebaseDatabase.getInstance().reference
 
         binding.listOfItems.layoutManager = LinearLayoutManager(this)
         binding.listOfItems.adapter = ItemRecyclerAdapter(emptyList<Item>(), this::onItemCardClicked)
@@ -37,7 +33,6 @@ class ListDetailsActivity : AppCompatActivity() {
 
 
         showNewItemDialogbox()
-
     }
 
     // function to add another item to the list
