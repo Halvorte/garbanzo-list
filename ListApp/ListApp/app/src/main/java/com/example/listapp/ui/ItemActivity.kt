@@ -63,9 +63,6 @@ class ItemActivity : AppCompatActivity() {
     }
 
     private fun onDeleteBtnClicked(item: Item):Unit{
-        //println("clicked $item")
-        //Toast.makeText(applicationContext, "delete btn clicked $item", Toast.LENGTH_SHORT).show()
-
         ItemDataManager.instance.removeItem(item)
     }
 

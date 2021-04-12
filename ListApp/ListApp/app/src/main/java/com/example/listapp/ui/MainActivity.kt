@@ -13,6 +13,7 @@ import com.example.listapp.dataClasses.List
 import com.example.listapp.logic.ListDataManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.database.ktx.getValue
@@ -25,7 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var listAdapter: ListRecyclerAdapter
 
     companion object {
-        private const val TAG = "MainActivity"
+        internal const val TAG = "MainActivity"
     }
 
 
@@ -37,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         supportActionBar?.setSubtitle("Overview of all your lists")
 
         binding.listOfLists.layoutManager = LinearLayoutManager(this)
-        binding.listOfLists.adapter = ListRecyclerAdapter(emptyList<List>(), this::onListCardClicked)
+        binding.listOfLists.adapter = ListRecyclerAdapter(emptyList<List>(), this::onDeleteListBtnClicked, this::onListCardClicked)
 
         // Holds the data
         ListDataManager.instance.onList = {
@@ -46,18 +47,14 @@ class MainActivity : AppCompatActivity() {
         ListDataManager.instance.listLoad()
 
 
-
+        //writeToDb()
         newListDialogbox()
-        basicReadWrite()
 
     }
 
     private fun addList(title: String){
         val list = List(title)
         ListDataManager.instance.addList(list)
-        val randomString = "afneifkehgds"
-
-        ListDataManager.instance.writeNewList(randomString, title)
     }
 
     // Function to add new Lists
@@ -92,32 +89,30 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    fun basicReadWrite() {
-        // [START write_message]
-        // Write a message to the database
-        val database = Firebase.database
-        val myRef = database.getReference("message")
 
-        
-        myRef.setValue("Hello, World!")
-        // [END write_message]
+    private fun onDeleteListBtnClicked(list: List){
+        ListDataManager.instance.removeList(list)
+    }
 
-        // [START read_message]
-        // Read from the database
-        myRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                // This method is called once with the initial value and again
-                // whenever data at this location is updated.
-                val value = dataSnapshot.getValue<String>()
-                Log.d(TAG, "Value is: $value")
+    // Function to write to database to set it up and give it test data.
+    fun writeToDb(){
+        val mDatabase = FirebaseDatabase.getInstance("https://garbanzo-list-default-rtdb.europe-west1.firebasedatabase.app/").getReference()
+        val lists: kotlin.collections.List<List> = mutableListOf(
+                List("Salads"),
+                List("TV's"),
+                List("Movies"),
+                List("Programming languages")
+        )
+        lists.forEach{
+            val key = mDatabase.child("Lists").push().key
+            if (key != null) {
+                it.uuid = key
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException())
+            if (key != null) {
+                mDatabase.child("Lists").child(key).setValue(it)
             }
-        })
-        // [END read_message]
+        }
+        //mDatabase.child("").setValue("yoTest #1")
     }
 
 }

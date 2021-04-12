@@ -7,14 +7,17 @@ import com.example.listapp.dataClasses.List
 import com.example.listapp.databinding.ListOverviewLayoutBinding
 
 // Recycler Adapter
-class ListRecyclerAdapter(private var lists:kotlin.collections.List<List>, private val onListCardClicked:(List) -> Unit) : RecyclerView.Adapter<ListRecyclerAdapter.ViewHolder>() {
+class ListRecyclerAdapter(private var lists:kotlin.collections.List<List>, private val onDeleteListBtnClicked:(List) -> Unit, private val onListCardClicked:(List) -> Unit) : RecyclerView.Adapter<ListRecyclerAdapter.ViewHolder>() {
 
     class ViewHolder(val binding:ListOverviewLayoutBinding):RecyclerView.ViewHolder(binding.root) {
-        fun binding(list: List, onListCardClicked:(List) -> Unit) {
+        fun binding(list: List, onDeleteListBtnClicked: (List) -> Unit, onListCardClicked:(List) -> Unit) {
             // Bind to layout id
             binding.overViewTitle.text = list.title
             binding.listOverviewCardView.setOnClickListener{
                 onListCardClicked(list)
+            }
+            binding.listDeleteBtn.setOnClickListener {
+                onDeleteListBtnClicked(list)
             }
 
         }
@@ -27,7 +30,7 @@ class ListRecyclerAdapter(private var lists:kotlin.collections.List<List>, priva
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         val list = lists[position]
-        holder.binding(list, onListCardClicked)
+        holder.binding(list, onDeleteListBtnClicked, onListCardClicked)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
