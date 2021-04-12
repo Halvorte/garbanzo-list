@@ -43,6 +43,16 @@
                 android:textColor="@android:color/black"
                 android:textSize="20sp"/>
 
+            <ImageButton
+                android:id="@+id/list_DeleteBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:background="@android:color/transparent"
+                android:src="@android:drawable/ic_delete"
+
+                />
+
             <ProgressBar
                 android:id="@+id/progressBar"
                 style="?android:attr/progressBarStyleHorizontal"
