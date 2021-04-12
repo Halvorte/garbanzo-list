@@ -1,14 +1,16 @@
-package com.example.listapp
+package com.example.listapp.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.EditText
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.listapp.R
 import com.example.listapp.databinding.ActivityMainBinding
 import com.example.listapp.dataClasses.List
-import com.example.listapp.lists.ListDataManager
-import com.example.listapp.lists.ListRecyclerAdapter
+import com.example.listapp.logic.ListDataManager
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
@@ -26,13 +28,6 @@ class MainActivity : AppCompatActivity() {
         private const val TAG = "MainActivity"
     }
 
-    /*
-    private var listCollection: MutableList<List> = mutableListOf(
-        List("Handleliste"),
-        List("Navn"),
-        List("Huskelapp")
-    )
-     */
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,27 +46,49 @@ class MainActivity : AppCompatActivity() {
         ListDataManager.instance.listLoad()
 
 
-        // Starts the second activity when the floating action button is pressed
-        /*
-        binding.newListButton.setOnClickListener {
-            val intent = Intent(this, ListDetailsActivity::class.java)
-            startActivity(intent)
-        }
-         */
 
-
+        newListDialogbox()
         basicReadWrite()
 
     }
 
     private fun addList(title: String){
+        val list = List(title)
+        ListDataManager.instance.addList(list)
+        val randomString = "afneifkehgds"
 
+        ListDataManager.instance.writeNewList(randomString, title)
+    }
+
+    // Function to add new Lists
+    private fun newListDialogbox(){
+        binding.newListButton.setOnClickListener {
+
+            val builder = AlertDialog.Builder(this)
+            val inflater = layoutInflater
+            val dialogLayout = inflater.inflate(R.layout.new_item_dialogbox, null)
+            val editText = dialogLayout.findViewById<EditText>(R.id.dialogbox_newItem)
+
+            with(builder){
+                setTitle("Enter new List name")
+                setPositiveButton("OK"){dialog, which ->
+                    val newListText = editText.text.toString()
+                    addList(newListText)
+
+                }
+                setNegativeButton("Cancel"){dialog, which ->
+                    Log.d("Main", "Negative button clicked")
+                }
+                setView(dialogLayout)
+                show()
+            }
+        }
     }
 
     // What happens when a card is clicked
     private fun onListCardClicked(list: List):Unit{
         // send to new activity where the content of clicked list is shown.
-        val intent = Intent(this, ListDetailsActivity::class.java)
+        val intent = Intent(this, ItemActivity::class.java)
         startActivity(intent)
     }
 
@@ -81,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         val database = Firebase.database
         val myRef = database.getReference("message")
 
+        
         myRef.setValue("Hello, World!")
         // [END write_message]
 

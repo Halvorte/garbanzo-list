@@ -43,8 +43,9 @@
             android:layout_alignTop="@+id/item_name"
             android:layout_alignBottom="@+id/item_name"
             android:layout_toEndOf="@+id/item_name"
+            android:background="@android:color/transparent"
             android:gravity="end"
-            android:src="@android:drawable/btn_minus"/>
+            android:src="@android:drawable/ic_delete" />
 
 
     </RelativeLayout>

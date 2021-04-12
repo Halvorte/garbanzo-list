@@ -1,4 +1,4 @@
-package com.example.listapp.lists
+package com.example.listapp.logic
 import com.example.listapp.dataClasses.Item
 import kotlin.collections.List
 
@@ -22,6 +22,11 @@ class ItemDataManager {
 
     fun addItem(item: Item){
         itemCollection.add(item)
+        onItems?.invoke(itemCollection)
+    }
+
+    fun removeItem(item: Item){
+        itemCollection.remove(item)
         onItems?.invoke(itemCollection)
     }
 

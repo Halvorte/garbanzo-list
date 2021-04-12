@@ -1,4 +1,4 @@
-package com.example.listapp.lists
+package com.example.listapp.ui
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -7,12 +7,15 @@ import com.example.listapp.dataClasses.Item
 import com.example.listapp.databinding.ItemLayoutBinding
 import kotlin.collections.List
 
-class ItemRecyclerAdapter (private var items:List<Item>, private val onItemCardClicked:(Item) -> Unit):RecyclerView.Adapter<ItemRecyclerAdapter.ViewHolder>(){
+class ItemRecyclerAdapter (private var items:List<Item>, private val onDeleteBtnClicked:(Item) -> Unit, private val onItemCardClicked:(Item) -> Unit):RecyclerView.Adapter<ItemRecyclerAdapter.ViewHolder>(){
 
     class ViewHolder(val binding:ItemLayoutBinding):RecyclerView.ViewHolder(binding.root){
-        fun binding(item: Item){
+        fun binding(item: Item, onDeleteBtnClicked: (Item) -> Unit){
             binding.itemName.text = item.name
             binding.itemCheckbox.isChecked = item.complete
+            binding.itemDeleteBtn.setOnClickListener{
+                onDeleteBtnClicked(item)
+            }
         }
     }
 
@@ -22,7 +25,7 @@ class ItemRecyclerAdapter (private var items:List<Item>, private val onItemCardC
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = items[position]
-        holder.binding(item)
+        holder.binding(item, onDeleteBtnClicked)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -33,4 +36,5 @@ class ItemRecyclerAdapter (private var items:List<Item>, private val onItemCardC
         items = newItems
         notifyDataSetChanged()
     }
+
 }

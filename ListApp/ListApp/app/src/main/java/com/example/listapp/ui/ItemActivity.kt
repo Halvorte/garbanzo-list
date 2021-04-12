@@ -1,20 +1,20 @@
-package com.example.listapp
+package com.example.listapp.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.util.LogPrinter
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.listapp.R
 import com.example.listapp.databinding.ActivityListDetailsBinding
 import com.example.listapp.dataClasses.Item
-import com.example.listapp.lists.ItemDataManager
-import com.example.listapp.lists.ItemRecyclerAdapter
-import com.google.firebase.database.DatabaseReference
+import com.example.listapp.logic.ItemDataManager
+import kotlinx.android.synthetic.main.item_layout.*
 
-class ListDetailsActivity : AppCompatActivity() {
-
-    lateinit var database: DatabaseReference
+class ItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListDetailsBinding
 
@@ -24,10 +24,9 @@ class ListDetailsActivity : AppCompatActivity() {
         binding = ActivityListDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //database = FirebaseDatabase.getInstance().reference
 
         binding.listOfItems.layoutManager = LinearLayoutManager(this)
-        binding.listOfItems.adapter = ItemRecyclerAdapter(emptyList<Item>(), this::onItemCardClicked)
+        binding.listOfItems.adapter = ItemRecyclerAdapter(emptyList<Item>(), this::onDeleteBtnClicked, this::onItemCardClicked)
 
         // Holds the data.
         ItemDataManager.instance.onItems = {
@@ -35,12 +34,8 @@ class ListDetailsActivity : AppCompatActivity() {
         }
         ItemDataManager.instance.itemLoad()
 
-        binding.addItemButton.setOnClickListener {
-            // Add functionality to add another item to list.
-        }
 
         showNewItemDialogbox()
-
     }
 
     // function to add another item to the list
@@ -65,6 +60,13 @@ class ListDetailsActivity : AppCompatActivity() {
                 show()
             }
         }
+    }
+
+    private fun onDeleteBtnClicked(item: Item):Unit{
+        //println("clicked $item")
+        //Toast.makeText(applicationContext, "delete btn clicked $item", Toast.LENGTH_SHORT).show()
+
+        ItemDataManager.instance.removeItem(item)
     }
 
     fun onItemCardClicked(item: Item): Unit {
