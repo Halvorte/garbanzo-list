@@ -18,7 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.ItemActivity" android:parentActivityName=".ui.MainActivity" android:label="Garbanzo-List">
+        <activity android:name=".ui.ItemActivity" android:parentActivityName=".ui.MainActivity" android:label="Liste #i"  >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity"/>

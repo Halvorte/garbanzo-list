@@ -25,6 +25,11 @@ class ItemDataManager {
         onItems?.invoke(itemCollection)
     }
 
+    fun removeItem(item: Item){
+        itemCollection.remove(item)
+        onItems?.invoke(itemCollection)
+    }
+
     companion object{
         val instance = ItemDataManager()
     }

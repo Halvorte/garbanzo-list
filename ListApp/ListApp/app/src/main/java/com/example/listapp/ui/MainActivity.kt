@@ -98,6 +98,7 @@ class MainActivity : AppCompatActivity() {
         val database = Firebase.database
         val myRef = database.getReference("message")
 
+        
         myRef.setValue("Hello, World!")
         // [END write_message]
 
