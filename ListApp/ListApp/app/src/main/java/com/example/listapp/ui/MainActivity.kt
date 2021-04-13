@@ -11,13 +11,8 @@ import com.example.listapp.R
 import com.example.listapp.databinding.ActivityMainBinding
 import com.example.listapp.dataClasses.List
 import com.example.listapp.logic.ListDataManager
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
+import com.example.listapp.service.ToDoListService
 import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.database
-import com.google.firebase.database.ktx.getValue
-import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
 
@@ -37,6 +32,9 @@ class MainActivity : AppCompatActivity() {
         // This is where the actionbar subtitle text is set.
         supportActionBar?.setSubtitle("Overview of all your lists")
 
+        // Update lists from database
+        ToDoListService.instance.readFromDb()
+
         binding.listOfLists.layoutManager = LinearLayoutManager(this)
         binding.listOfLists.adapter = ListRecyclerAdapter(emptyList<List>(), this::onDeleteListBtnClicked, this::onListCardClicked)
 
@@ -50,11 +48,13 @@ class MainActivity : AppCompatActivity() {
         //writeToDb()
         newListDialogbox()
 
+
     }
 
-    private fun addList(title: String){
+    private fun addListToDb(title: String){
         val list = List(title)
-        ListDataManager.instance.addList(list)
+        //ListDataManager.instance.addList(list)
+        ToDoListService.instance.writeNewListToDb(list)
     }
 
     // Function to add new Lists
@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity() {
                 setTitle("Enter new List name")
                 setPositiveButton("OK"){dialog, which ->
                     val newListText = editText.text.toString()
-                    addList(newListText)
+                    addListToDb(newListText)
 
                 }
                 setNegativeButton("Cancel"){dialog, which ->
@@ -89,7 +89,7 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-
+    // What happens when the delete button is pressed
     private fun onDeleteListBtnClicked(list: List){
         ListDataManager.instance.removeList(list)
     }
