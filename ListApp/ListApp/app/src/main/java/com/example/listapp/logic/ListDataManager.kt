@@ -30,16 +30,13 @@ class ListDataManager {
         onList?.invoke(listCollection)
     }
 
+    // Remove selected list from database
     fun removeList(list: List){
         var listToDelete = List(list.title, list.uuid)
         ToDoListService.instance.deleteListFromDb(listToDelete)
-        /*
-        listCollection.remove(list)
-        onList?.invoke(listCollection)
-
-         */
     }
 
+    // Clear listLoad so it can be loaded only with lists from the database
     fun clearList(){
         listCollection.clear()
         onList?.invoke(listCollection)

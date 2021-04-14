@@ -47,10 +47,12 @@ class MainActivity : AppCompatActivity() {
         }
         ListDataManager.instance.listLoad()
 
-
-        //writeToDb()
+        // function for dialog box to add new lists
         newListDialogbox()
-        //writeItemToDb()
+
+        // Functions to write to and test database
+        //ToDoListService.instance.writeToDb()
+        //ToDoListService.instance.writeItemToDb()
 
 
     }
@@ -95,46 +97,8 @@ class MainActivity : AppCompatActivity() {
         startActivity(intent)
     }
 
-    // What happens when the delete button is pressed
+    // What happens when the delete button is pressed. When delete button is pressed, the list will get deleted from the database.
     private fun onDeleteListBtnClicked(list: List){
         ListDataManager.instance.removeList(list)
     }
-
-    // Function to write to database to set it up and give it test data.
-    fun writeToDb(){
-        val mDatabase = FirebaseDatabase.getInstance("https://garbanzo-list-default-rtdb.europe-west1.firebasedatabase.app/").getReference()
-        val lists: kotlin.collections.List<List> = mutableListOf(
-                List("Salads"),
-                List("TV's"),
-                List("Movies"),
-                List("Programming languages")
-        )
-        lists.forEach{
-            val key = mDatabase.child("Lists").push().key
-            if (key != null) {
-                it.uuid = key
-            }
-            if (key != null) {
-                mDatabase.child("Lists").child(key).setValue(it)
-            }
-        }
-        //mDatabase.child("").setValue("yoTest #1")
-    }
-
-    fun writeItemToDb(){
-        val mDatabase = FirebaseDatabase.getInstance("https://garbanzo-list-default-rtdb.europe-west1.firebasedatabase.app/").getReference()
-        val items: kotlin.collections.List<Item> = mutableListOf(
-                Item("RED", false),
-                Item("James Bond", false),
-                Item("Aquaman", true),
-                Item("Kingsman", false)
-        )
-        items.forEach{
-            //var name = it.name.toString()
-            mDatabase.child("Lists").child("-MYBzQLMOE3unsHZtjow").child("Items").child(it.name.toString()).setValue(it)
-        }
-
-
-    }
-
 }

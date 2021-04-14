@@ -10,14 +10,7 @@ class ItemDataManager {
     var onItems: ((List<Item>) -> Unit)? = null
 
     fun itemLoad(){
-        itemCollection = mutableListOf(
-                Item("Homework", false),
-                Item("Clean", false),
-                Item("make food", true),
-                Item("test1", true),
-                Item("test2", true)
-        )
-
+        itemCollection = mutableListOf()
         onItems?.invoke(itemCollection)
     }
 
@@ -29,11 +22,6 @@ class ItemDataManager {
 
     fun removeItem(item: Item, list:com.example.listapp.dataClasses.List){
         ToDoListService.instance.deleteItemFromDb(item, list)
-        /*
-        itemCollection.remove(item)
-        onItems?.invoke(itemCollection)
-
-         */
     }
 
     fun clearItems(){
@@ -44,5 +32,4 @@ class ItemDataManager {
     companion object{
         val instance = ItemDataManager()
     }
-
 }

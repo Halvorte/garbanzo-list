@@ -60,16 +60,18 @@ class ToDoListService {
 
     // function to delete list from the database
     fun deleteListFromDb(list: List) {
-        // Get the reference of the list to delete
+        // Get the reference of the list to delete. Setting the value to null deletes it from the database.
         listsRef.child(list.uuid.toString()).setValue(null)
         // delete
 
     }
 
+    // function to delete item from a specified list in the database.
     fun deleteItemFromDb(item: Item, list: List){
         listsRef.child(list.uuid.toString()).child("Items").child(item.name.toString()).setValue(null)
     }
 
+    // Read Lists from the database.
     fun readFromDb() {
         val list = ArrayList<List>()
         listsRef.addValueEventListener(object : ValueEventListener {
@@ -138,6 +140,44 @@ class ToDoListService {
                 }
             })
         }
+    }
+
+    // Function to write to database to set it up and give it test data.
+    fun writeToDb(){
+        val mDatabase = FirebaseDatabase.getInstance("https://garbanzo-list-default-rtdb.europe-west1.firebasedatabase.app/").getReference()
+        val lists: kotlin.collections.List<List> = mutableListOf(
+                List("Salads"),
+                List("TV's"),
+                List("Movies"),
+                List("Programming languages")
+        )
+        lists.forEach{
+            val key = mDatabase.child("Lists").push().key
+            if (key != null) {
+                it.uuid = key
+            }
+            if (key != null) {
+                mDatabase.child("Lists").child(key).setValue(it)
+            }
+        }
+        //mDatabase.child("").setValue("yoTest #1")
+    }
+
+    // Function to test and set up items in the database.
+    fun writeItemToDb(){
+        val mDatabase = FirebaseDatabase.getInstance("https://garbanzo-list-default-rtdb.europe-west1.firebasedatabase.app/").getReference()
+        val items: kotlin.collections.List<Item> = mutableListOf(
+                Item("RED", false),
+                Item("James Bond", false),
+                Item("Aquaman", true),
+                Item("Kingsman", false)
+        )
+        items.forEach{
+            //var name = it.name.toString()
+            mDatabase.child("Lists").child("-MYBzQLMOE3unsHZtjow").child("Items").child(it.name.toString()).setValue(it)
+        }
+
+
     }
 
 
