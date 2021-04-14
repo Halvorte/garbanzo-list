@@ -33,6 +33,8 @@ class ItemActivity : AppCompatActivity() {
         var chosenList = List(recievedList?.title, recievedList?.uuid)
         listToUse = chosenList
 
+        setTitle(chosenList.title)
+
         // Update lists from database
         ToDoListService.instance.readItemFromDb(chosenList)
 
