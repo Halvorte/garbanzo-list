@@ -54,8 +54,11 @@ class ToDoListService {
     }
 
     // function to update item in database
-    fun updateItemToDb() {
-
+    fun updateItemToDb(item: Item, list: List) {
+        val listId = list.uuid.toString()
+        val newBool = !item.complete
+        val updatedItem = Item(item.name, newBool)
+        listsRef.child(listId).child("Items").child(item.name.toString()).setValue(updatedItem)
     }
 
     // function to delete list from the database

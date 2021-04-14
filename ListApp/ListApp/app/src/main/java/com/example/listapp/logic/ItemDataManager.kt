@@ -29,6 +29,10 @@ class ItemDataManager {
         onItems?.invoke(itemCollection)
     }
 
+    fun updateItem(item: Item, list: com.example.listapp.dataClasses.List){
+        ToDoListService.instance.updateItemToDb(item, list)
+    }
+
     companion object{
         val instance = ItemDataManager()
     }

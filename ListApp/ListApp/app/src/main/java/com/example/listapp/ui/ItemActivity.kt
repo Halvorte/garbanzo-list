@@ -37,7 +37,7 @@ class ItemActivity : AppCompatActivity() {
         ToDoListService.instance.readItemFromDb(chosenList)
 
         binding.listOfItems.layoutManager = LinearLayoutManager(this)
-        binding.listOfItems.adapter = ItemRecyclerAdapter(emptyList<Item>(), this::onDeleteBtnClicked, this::onItemCardClicked)
+        binding.listOfItems.adapter = ItemRecyclerAdapter(emptyList<Item>(),this::onCheckboxPressed, this::onDeleteBtnClicked, this::onItemCardClicked)
 
         // Holds the data.
         ItemDataManager.instance.onItems = {
@@ -77,8 +77,13 @@ class ItemActivity : AppCompatActivity() {
         ItemDataManager.instance.removeItem(item, listToUse)
     }
 
+    // what happens when checkbox it ticked or unticked
+    private fun onCheckboxPressed(item: Item):Unit{
+        ItemDataManager.instance.updateItem(item, listToUse)
+    }
+
     fun onItemCardClicked(item: Item): Unit {
-        // What happends when itemcard is clicked. In this project nothing
+        // What happens when itemcard is clicked. In this project nothing
     }
 
     fun addItemToDb(name: String, complete: Boolean, listToUse: List) {
