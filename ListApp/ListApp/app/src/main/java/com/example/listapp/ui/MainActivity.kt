@@ -8,11 +8,14 @@ import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.listapp.R
+import com.example.listapp.dataClasses.Item
 import com.example.listapp.databinding.ActivityMainBinding
 import com.example.listapp.dataClasses.List
 import com.example.listapp.logic.ListDataManager
 import com.example.listapp.service.ToDoListService
 import com.google.firebase.database.FirebaseDatabase
+
+const val EXTRA_LIST_INFO: String = "com.example.listapp.list.info"
 
 class MainActivity : AppCompatActivity() {
 
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity() {
 
         //writeToDb()
         newListDialogbox()
+        //writeItemToDb()
 
 
     }
@@ -85,7 +89,9 @@ class MainActivity : AppCompatActivity() {
     // What happens when a card is clicked
     private fun onListCardClicked(list: List):Unit{
         // send to new activity where the content of clicked list is shown.
-        val intent = Intent(this, ItemActivity::class.java)
+        val intent = Intent(this, ItemActivity::class.java).apply {
+            putExtra(EXTRA_LIST_INFO, list)
+        }
         startActivity(intent)
     }
 
@@ -113,6 +119,22 @@ class MainActivity : AppCompatActivity() {
             }
         }
         //mDatabase.child("").setValue("yoTest #1")
+    }
+
+    fun writeItemToDb(){
+        val mDatabase = FirebaseDatabase.getInstance("https://garbanzo-list-default-rtdb.europe-west1.firebasedatabase.app/").getReference()
+        val items: kotlin.collections.List<Item> = mutableListOf(
+                Item("RED", false),
+                Item("James Bond", false),
+                Item("Aquaman", true),
+                Item("Kingsman", false)
+        )
+        items.forEach{
+            //var name = it.name.toString()
+            mDatabase.child("Lists").child("-MYBzQLMOE3unsHZtjow").child("Items").child(it.name.toString()).setValue(it)
+        }
+
+
     }
 
 }

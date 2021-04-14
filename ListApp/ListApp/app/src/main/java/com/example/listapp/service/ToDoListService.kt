@@ -1,7 +1,9 @@
 package com.example.listapp.service
 
 import android.util.Log
+import com.example.listapp.dataClasses.Item
 import com.example.listapp.dataClasses.List
+import com.example.listapp.logic.ItemDataManager
 import com.example.listapp.logic.ListDataManager
 import com.example.listapp.ui.MainActivity
 import com.google.firebase.database.DataSnapshot
@@ -39,8 +41,11 @@ class ToDoListService {
     }
 
     // function to write new item to database
-    fun writeNewItemToDb() {
+    fun writeNewItemToDb(item: Item, list: List) {
+        val newItem:Item = item
+        val listId = list.uuid.toString()
 
+        listsRef.child(listId).child("Items").child(newItem.name.toString()).setValue(newItem)
     }
 
     // function to update list in database
@@ -59,6 +64,10 @@ class ToDoListService {
         listsRef.child(list.uuid.toString()).setValue(null)
         // delete
 
+    }
+
+    fun deleteItemFromDb(item: Item, list: List){
+        listsRef.child(list.uuid.toString()).child("Items").child(item.name.toString()).setValue(null)
     }
 
     fun readFromDb() {
@@ -83,13 +92,52 @@ class ToDoListService {
 
 
 
-                Log.d(TAG, "got Lists")
+                Log.d(TAG, "got Items")
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Log.w(TAG, "loadList:onCancelled")//, databaseError.toException())
+                Log.w(TAG, "loadItem:onCancelled")//, databaseError.toException())
             }
         })
+    }
+
+
+    // read items from database
+    fun readItemFromDb(list: List){
+        val items = ArrayList<Item>()
+        val listId = list.uuid
+
+        if (listId != null) {
+            listsRef.child(listId).child("Items").addValueEventListener(object : ValueEventListener {
+
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                    if (dataSnapshot!!.exists()) {
+                        items.clear()
+
+                        // Clear the list of items so only items from the database is shown.
+                        ItemDataManager.instance.clearItems()
+
+                        for (e in dataSnapshot.children) {
+                            var value = e.getValue() as HashMap<*,*>
+                            var name = value["name"].toString()
+                            var complete = value["complete"]
+
+                            val post: Item = Item(name, complete as Boolean)
+                            //val post = e.getValue(Item::class.java)
+                            items.add(post!!)
+                            val toItem = Item(post.name, post.complete)
+                            ItemDataManager.instance.addItem(toItem)
+                        }
+                    }
+                    Log.d(TAG, "got Items")
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.w(TAG, "loadItems:onCancelled")//, databaseError.toException())
+                }
+            })
+        }
     }
 
 

@@ -11,12 +11,16 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.listapp.R
 import com.example.listapp.databinding.ActivityListDetailsBinding
 import com.example.listapp.dataClasses.Item
+import com.example.listapp.dataClasses.List
 import com.example.listapp.logic.ItemDataManager
+import com.example.listapp.service.ToDoListService
 import kotlinx.android.synthetic.main.item_layout.*
 
 class ItemActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityListDetailsBinding
+
+    private lateinit var listToUse: List
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -24,6 +28,13 @@ class ItemActivity : AppCompatActivity() {
         binding = ActivityListDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // get the data of the list that was selected.
+        val recievedList = intent.getParcelableExtra<List>(EXTRA_LIST_INFO)
+        var chosenList = List(recievedList?.title, recievedList?.uuid)
+        listToUse = chosenList
+
+        // Update lists from database
+        ToDoListService.instance.readItemFromDb(chosenList)
 
         binding.listOfItems.layoutManager = LinearLayoutManager(this)
         binding.listOfItems.adapter = ItemRecyclerAdapter(emptyList<Item>(), this::onDeleteBtnClicked, this::onItemCardClicked)
@@ -51,7 +62,7 @@ class ItemActivity : AppCompatActivity() {
                 setTitle("Enter new to-do item")
                 setPositiveButton("OK"){dialog, which ->
                     val newItemText = editText.text.toString()
-                    addItem(newItemText, false)
+                    addItemToDb(newItemText, false, listToUse)
                 }
                 setNegativeButton("Cancel"){dialog, which ->
                     Log.d("Main", "Negative button clicked")
@@ -63,15 +74,16 @@ class ItemActivity : AppCompatActivity() {
     }
 
     private fun onDeleteBtnClicked(item: Item):Unit{
-        ItemDataManager.instance.removeItem(item)
+        ItemDataManager.instance.removeItem(item, listToUse)
     }
 
     fun onItemCardClicked(item: Item): Unit {
         // What happends when itemcard is clicked. In this project nothing
     }
 
-    fun addItem(name: String, complete: Boolean) {
+    fun addItemToDb(name: String, complete: Boolean, listToUse: List) {
         val item = Item(name, complete)
-        ItemDataManager.instance.addItem(item)
+
+        ToDoListService.instance.writeNewItemToDb(item, listToUse)
     }
 }
